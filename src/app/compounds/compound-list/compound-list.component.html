@@ -1,0 +1,125 @@
+<div class="search-div">
+  <button mat-raised-button (click)="onCreate()" color="primary">
+    <mat-icon>add</mat-icon>Create compound
+  </button>
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input
+      matInput
+      [(ngModel)]="searchKey"
+      placeholder="Search"
+      autocomplete="off"
+      (keyup)="applyFilter()"
+    />
+    <button
+      mat-button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      *ngIf="searchKey"
+      (click)="onSearchClear()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8">
+  <table
+    class="wide-table"
+    mat-table
+    [dataSource]="compoundsDataSource"
+    matSort
+  >
+    <ng-container matColumnDef="compoundId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.compoundId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="formula">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Formula</th>
+      <td mat-cell *matCellDef="let element">{{ element.formula }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="Edit compound"
+          matTooltipPosition="before"
+          (click)="onEdit(element.compoundId)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          disabled
+          color="primary"
+          matTooltip="Print label"
+          matTooltipPosition="right"
+        >
+          <mat-icon>print</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          matTooltip="Delete compound"
+          matTooltipPosition="after"
+          (click)="onDelete(element.compoundId)"
+        >
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <td
+        mat-footer-cell
+        *matFooterCellDef
+        class="footer"
+        [attr.colspan]="displayedColumns.length"
+      >
+        Loading data...
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="noData">
+      <td
+        mat-footer-cell
+        *matFooterCellDef
+        class="footer"
+        [attr.colspan]="displayedColumns.length"
+      >
+        No data.
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-footer-row
+      *matFooterRowDef="['loading']"
+      [ngClass]="{ hide: compoundsDataSource != null }"
+    ></tr>
+    <tr
+      mat-footer-row
+      *matFooterRowDef="['noData']"
+      [ngClass]="{
+        hide: !(
+          compoundsDataSource != null && compoundsDataSource.data.length == 0
+        )
+      }"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 20, 50, 100]"
+    [pageSize]="10"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

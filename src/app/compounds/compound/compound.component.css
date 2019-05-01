@@ -1,0 +1,36 @@
+mat-dialog-content {
+  overflow-x: hidden;
+}
+
+h3.form-header {
+  margin: 20px 5px 5px 5px;
+}
+
+mat-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.additional-params {
+  width: 100%;
+  padding: 0% 2.5% 25px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin-left: 10px;
+}
+
+.inline-flag {
+  position: relative;
+  display: inline;
+}
+
+.inline-flag > span {
+  font-weight: bolder;
+  font-size: small;
+}

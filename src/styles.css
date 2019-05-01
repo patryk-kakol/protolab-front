@@ -1,1 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
+/* material */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* div.container {
+  margin: 0px 40px;
+} */
+
+.fill-remaining-space {
+  /* this fills all remaining space using flexbox */
+  flex: 1 1 auto;
+}
+
+from.normal-form {
+  margin: 10px;
+}
+
+.controles-container{
+  width: 100%;
+  padding: 5%;
+}
+
+.controles-container > * {
+  width: 100%;
+}
+
+
+/* defaults: */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  /* overflow-x:hidden; */
+  margin: 2em;
+}
+ /* body, input[type="text"], button {
+  color: #888;
+  font-family: Cambria, Georgia;
+} */
+/* everywhere else */
+* {
+  /* color: #444; */
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+/* ::ng-deep .cdk-overlay-pane, .md-overlay-pane {
+  height: auto !important;
+} */
+
+
