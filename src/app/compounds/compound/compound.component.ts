@@ -1,33 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 import { CompoundService } from '../../shared/compound.service';
 import { HazardStatement } from '../../shared/hazardStatement';
 import { PrecautionaryStatement } from '../../shared/precautionaryStatement';
-import { StatementsService } from '../../shared/statements.service';
 import { Compound } from 'src/app/shared/compound';
 import { NotificationService } from '../../shared/notification.service';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-compound',
   templateUrl: './compound.component.html',
   styleUrls: ['./compound.component.css']
 })
-export class CompoundComponent implements OnInit, OnDestroy {
+export class CompoundComponent implements OnDestroy {
   hazardStatements: HazardStatement[];
   precautionaryStatements: PrecautionaryStatement[];
   neutralCompound: boolean;
 
   constructor(
     public compoundService: CompoundService,
-    private statementsService: StatementsService,
     private notificationService: NotificationService,
-    // public hStatement: HazardStatement[]
+    @Inject(MAT_DIALOG_DATA) data
     ) {
-      this.getStatements();
-      // this.hazardStatements = hStatement;
+      this.hazardStatements = data.hazardStatements;
+      this.precautionaryStatements = data.precautionaryStatements;
     }
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.resetForm();
@@ -47,15 +43,6 @@ export class CompoundComponent implements OnInit, OnDestroy {
     return (
       c1 && c2 && c1.precautionaryStatementId === c2.precautionaryStatementId
     );
-  }
-
-  getStatements(): void {
-    this.statementsService
-      .getHazardStatements()
-      .subscribe(statements => (this.hazardStatements = statements));
-    this.statementsService
-      .getPrecautionaryStatements()
-      .subscribe(statements => (this.precautionaryStatements = statements));
   }
 
   toggleNeutralCompound(): void {

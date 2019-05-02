@@ -3,7 +3,7 @@ import { CompoundService } from 'src/app/shared/compound.service';
 import { Compound } from 'src/app/shared/compound';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { CompoundComponent } from '../compound/compound.component';
-import { HazardStatement } from 'src/app/shared/hazardStatement';
+import { StatementsService } from 'src/app/shared/statements.service';
 
 @Component({
   selector: 'app-compound-list',
@@ -17,39 +17,23 @@ export class CompoundListComponent implements OnInit {
   displayedColumns: string[] = ['compoundId', 'name', 'formula', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   searchKey: string;
   dialogConfig: MatDialogConfig = {
     width: '80%',
-    disableClose: false
+    disableClose: false,
+    data: {
+      hazardStatements: [],
+      precautionaryStatements: []
+    }
   };
 
-  Hstats: HazardStatement[] = [
-{hazardStatementId: 38, code: 'H312', text: 'Działa szkodliwie w kontakcie ze skórą.'},
-{hazardStatementId: 38, code: 'H312', text: 'Działa szkodliwie w kontakcie ze skórą.'},
-{hazardStatementId: 40, code: 'H315', text: 'Działa drażniąco na skórę.'},
-{hazardStatementId: 43, code: 'H319', text: 'Działa drażniąco na oczy.'},
-{hazardStatementId: 46, code: 'H332', text: 'Działa szkodliwie w następstwie wdychania.'},
-{hazardStatementId: 48, code: 'H335', text: 'Może powodować podrażnienie dróg oddechowych.'},
-{hazardStatementId: 68, code: 'H372', text: 'tatatatatat'},
-{hazardStatementId: 82, code: 'H400', text: 'Działa bardzo toksycznie na organizmy wodne.'}
-];
-
   constructor(private compoundService: CompoundService,
+              private statementsService: StatementsService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    // delay test
-    // setTimeout(() => {
-    //   this.getCompoundsDataSource();
-    //   }, 1000);
-
-    // No data test
-    // setTimeout(() => {
-    //   console.log('now is the time!');
-    //   this.compoundsDataSource = new MatTableDataSource([]);
-    //   }, 3000);
-
-    // regular:
+    this.getStatements();
     this.getCompoundsDataSource();
   }
 
@@ -66,6 +50,15 @@ export class CompoundListComponent implements OnInit {
       this.compoundsDataSource.paginator = this.paginator;
       // TODO: put notification service into catch error!
     });
+  }
+
+  getStatements(): void {
+    this.statementsService
+      .getHazardStatements()
+      .subscribe(statements => (this.dialogConfig.data.hazardStatements = statements));
+    this.statementsService
+      .getPrecautionaryStatements()
+      .subscribe(statements => (this.dialogConfig.data.precautionaryStatements = statements));
   }
 
   onSearchClear(): void {
@@ -85,8 +78,8 @@ export class CompoundListComponent implements OnInit {
   onEdit(id: number): void {
     const compoundObject = this.compounds.find(
       c => c.compoundId === id);
+    this.compoundService.populateForm(compoundObject);
     this.dialog.open(CompoundComponent, this.dialogConfig)
-      .afterOpened().subscribe(() => this.compoundService.populateForm(compoundObject));
     this.dialog.openDialogs.forEach(open => open.afterClosed()
       .subscribe(() => this.getCompoundsDataSource()));
   }
