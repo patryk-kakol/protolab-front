@@ -85,7 +85,8 @@
         class="footer"
         [attr.colspan]="displayedColumns.length"
       >
-        Loading data...
+        <p>Loading data...</p>
+        <mat-spinner [diameter]="40"></mat-spinner><br />
       </td>
     </ng-container>
     <ng-container matColumnDef="noData">

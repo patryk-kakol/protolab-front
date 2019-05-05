@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StatementsService } from './statements.service';
+import { StaticsService } from './statics.service';
 
-describe('StatementsService', () => {
+describe('StaticsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: StatementsService = TestBed.get(StatementsService);
+    const service: StaticsService = TestBed.get(StaticsService);
     expect(service).toBeTruthy();
   });
 });

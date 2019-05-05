@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HazardStatement } from './hazardStatement';
 import { PrecautionaryStatement } from './precautionaryStatement';
+import { Pictogram } from './pictogram';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -11,10 +12,11 @@ const API_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
-export class StatementsService {
+export class StaticsService {
 
   private hazardStatementUrl = 'dto/hazardStatements';
   private precautionaryStatementsUrl = 'dto/precautionaryStatements';
+  private pictogramsUrl = 'dto/pictograms';
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +33,14 @@ export class StatementsService {
       .pipe(
         tap(_ => console.log('fetched precautionary statements')),
         catchError(this.handleError<PrecautionaryStatement[]>('getPrecationaryStatements()', []))
+      );
+  }
+
+  getPictograms(): Observable<Pictogram[]> {
+    return this.http.get<Pictogram[]>(API_URL + this.pictogramsUrl)
+      .pipe(
+        tap(_ => console.log('fetched pictograms')),
+        catchError(this.handleError<Pictogram[]>('getPictograms()', []))
       );
   }
 

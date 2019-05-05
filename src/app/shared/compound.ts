@@ -1,5 +1,6 @@
 import { HazardStatement } from './hazardStatement';
 import { PrecautionaryStatement } from './precautionaryStatement';
+import { Pictogram } from './pictogram';
 
 export class Compound {
     compoundId: null;
@@ -13,4 +14,5 @@ export class Compound {
     packagingGroup: string;
     hazardStatementDtos: HazardStatement[];
     precautionaryStatementDtos: PrecautionaryStatement[];
+    pictogramDtos: Pictogram[];
 }

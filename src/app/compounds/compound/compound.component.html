@@ -119,8 +119,36 @@
         </mat-grid-tile>
       </mat-grid-list>
     </mat-selection-list>
+
+    <h3 class="form-header">Pictograms:</h3>
+    <mat-divider></mat-divider>
+    <mat-selection-list
+      dense
+      formControlName="pictogramDtos"
+      [compareWith]="comparePictograms"
+    >
+      <mat-grid-list cols="2" rowHeight="45px">
+        <mat-grid-tile *ngFor="let p of pictograms">
+          <mat-list-option [value]="p" checkboxPosition="before">
+            <div class="pictogramsList">
+              <img
+                class="valign"
+                [src]="[p.path]"
+                [alt]="[p.code]"
+                height="40"
+                width="40"
+              />
+              <span class="inline-flag">
+                <span>{{ p.code }}:</span> {{ p.name }}
+              </span>
+            </div>
+          </mat-list-option>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-selection-list>
   </form>
   <!-- debug -->
+
   <!-- <pre> {{ compoundService.compoundForm.getRawValue() | json }} </pre> -->
 </mat-dialog-content>
 <mat-dialog-actions align="end">

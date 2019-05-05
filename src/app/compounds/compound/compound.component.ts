@@ -1,7 +1,8 @@
-import { Component, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { CompoundService } from '../../shared/compound.service';
 import { HazardStatement } from '../../shared/hazardStatement';
 import { PrecautionaryStatement } from '../../shared/precautionaryStatement';
+import { Pictogram } from 'src/app/shared/pictogram';
 import { Compound } from 'src/app/shared/compound';
 import { NotificationService } from '../../shared/notification.service';
 import { MAT_DIALOG_DATA } from '@angular/material';
@@ -11,18 +12,25 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './compound.component.html',
   styleUrls: ['./compound.component.css']
 })
-export class CompoundComponent implements OnDestroy {
+export class CompoundComponent implements OnInit, OnDestroy {
   hazardStatements: HazardStatement[];
   precautionaryStatements: PrecautionaryStatement[];
+  pictograms: Pictogram[];
   neutralCompound: boolean;
 
   constructor(
     public compoundService: CompoundService,
+    private changeDetector: ChangeDetectorRef,
     private notificationService: NotificationService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) public data: any
     ) {
       this.hazardStatements = data.hazardStatements;
       this.precautionaryStatements = data.precautionaryStatements;
+      this.pictograms = data.pictograms;
+    }
+
+    ngOnInit() {
+      this.changeDetector.detectChanges();
     }
 
   ngOnDestroy() {
@@ -44,6 +52,14 @@ export class CompoundComponent implements OnDestroy {
       c1 && c2 && c1.precautionaryStatementId === c2.precautionaryStatementId
     );
   }
+
+  comparePictograms(
+    c1: { pictogramId: number },
+    c2: { pictogramId: number }
+  ) {
+    return c1 && c2 && c1.pictogramId === c2.pictogramId;
+  }
+
 
   toggleNeutralCompound(): void {
     this.neutralCompound = !this.neutralCompound;

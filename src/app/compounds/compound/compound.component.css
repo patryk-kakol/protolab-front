@@ -34,3 +34,12 @@ button {
   font-weight: bolder;
   font-size: small;
 }
+
+.pictogramsList > .inline-flag > span {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.pictogramsList > img {
+  vertical-align: middle;
+}

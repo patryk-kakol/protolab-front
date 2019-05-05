@@ -3,7 +3,7 @@ import { CompoundService } from 'src/app/shared/compound.service';
 import { Compound } from 'src/app/shared/compound';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { CompoundComponent } from '../compound/compound.component';
-import { StatementsService } from 'src/app/shared/statements.service';
+import { StaticsService } from 'src/app/shared/statics.service';
 
 @Component({
   selector: 'app-compound-list',
@@ -24,16 +24,17 @@ export class CompoundListComponent implements OnInit {
     disableClose: false,
     data: {
       hazardStatements: [],
-      precautionaryStatements: []
+      precautionaryStatements: [],
+      pictograms: []
     }
   };
 
   constructor(private compoundService: CompoundService,
-              private statementsService: StatementsService,
+              private staticsService: StaticsService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.getStatements();
+    this.getStatics();
     this.getCompoundsDataSource();
   }
 
@@ -52,13 +53,16 @@ export class CompoundListComponent implements OnInit {
     });
   }
 
-  getStatements(): void {
-    this.statementsService
+  getStatics(): void {
+    this.staticsService
       .getHazardStatements()
-      .subscribe(statements => (this.dialogConfig.data.hazardStatements = statements));
-    this.statementsService
+      .subscribe(statements => this.dialogConfig.data.hazardStatements = statements);
+    this.staticsService
       .getPrecautionaryStatements()
-      .subscribe(statements => (this.dialogConfig.data.precautionaryStatements = statements));
+      .subscribe(statements => this.dialogConfig.data.precautionaryStatements = statements);
+    this.staticsService
+      .getPictograms()
+      .subscribe(pictograms => this.dialogConfig.data.pictograms = pictograms);
   }
 
   onSearchClear(): void {
@@ -79,7 +83,7 @@ export class CompoundListComponent implements OnInit {
     const compoundObject = this.compounds.find(
       c => c.compoundId === id);
     this.compoundService.populateForm(compoundObject);
-    this.dialog.open(CompoundComponent, this.dialogConfig)
+    this.dialog.open(CompoundComponent, this.dialogConfig);
     this.dialog.openDialogs.forEach(open => open.afterClosed()
       .subscribe(() => this.getCompoundsDataSource()));
   }

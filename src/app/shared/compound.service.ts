@@ -31,7 +31,8 @@ export class CompoundService {
     helperClass: [null],
     packagingGroup: [null],
     hazardStatementDtos: [[]],
-    precautionaryStatementDtos: [[]]
+    precautionaryStatementDtos: [[]],
+    pictogramDtos: [[]]
   });
 
   constructor(private formBuilder: FormBuilder,
@@ -98,7 +99,8 @@ export class CompoundService {
       helperClass: null,
       packagingGroup: null,
       hazardStatementDtos: [],
-      precautionaryStatementDtos: []
+      precautionaryStatementDtos: [],
+      pictogramDtos: []
     });
   }
 
