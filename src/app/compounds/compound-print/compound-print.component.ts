@@ -50,7 +50,7 @@ export class CompoundPrintComponent implements OnInit {
     // compund name and clarity
     doc.setFont('roboto-bold');
     doc.setFontSize(5);
-    doc.text(`${this.compoundProperties.name} ${this.clarity}`, 22 * ratio, 8 * ratio);
+    doc.text(`${this.compoundProperties.name} ${this.clarity}`, 22 * ratio, 7 * ratio);
     doc.setFontSize(3);
     // static compound parameter names
     doc.text('CAS:', 22 * ratio, 13 * ratio);
