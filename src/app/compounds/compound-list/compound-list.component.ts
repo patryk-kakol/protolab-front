@@ -4,6 +4,7 @@ import { Compound } from 'src/app/shared/compound';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { CompoundComponent } from '../compound/compound.component';
 import { StaticsService } from 'src/app/shared/statics.service';
+import { CompoundPrintComponent } from '../compound-print/compound-print.component';
 
 @Component({
   selector: 'app-compound-list',
@@ -19,7 +20,7 @@ export class CompoundListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   searchKey: string;
-  dialogConfig: MatDialogConfig = {
+  editDialogConfig: MatDialogConfig = {
     width: '80%',
     disableClose: false,
     data: {
@@ -27,6 +28,11 @@ export class CompoundListComponent implements OnInit {
       precautionaryStatements: [],
       pictograms: []
     }
+  };
+  printDialogConfig: MatDialogConfig = {
+    width: '40%',
+    disableClose: false,
+    data: Compound
   };
 
   constructor(private compoundService: CompoundService,
@@ -56,13 +62,13 @@ export class CompoundListComponent implements OnInit {
   getStatics(): void {
     this.staticsService
       .getHazardStatements()
-      .subscribe(statements => this.dialogConfig.data.hazardStatements = statements);
+      .subscribe(statements => this.editDialogConfig.data.hazardStatements = statements);
     this.staticsService
       .getPrecautionaryStatements()
-      .subscribe(statements => this.dialogConfig.data.precautionaryStatements = statements);
+      .subscribe(statements => this.editDialogConfig.data.precautionaryStatements = statements);
     this.staticsService
       .getPictograms()
-      .subscribe(pictograms => this.dialogConfig.data.pictograms = pictograms);
+      .subscribe(pictograms => this.editDialogConfig.data.pictograms = pictograms);
   }
 
   onSearchClear(): void {
@@ -75,7 +81,7 @@ export class CompoundListComponent implements OnInit {
   }
 
   onCreate(): void {
-    this.dialog.open(CompoundComponent, this.dialogConfig)
+    this.dialog.open(CompoundComponent, this.editDialogConfig)
       .afterClosed().subscribe(() => this.getCompoundsDataSource());
   }
 
@@ -83,9 +89,16 @@ export class CompoundListComponent implements OnInit {
     const compoundObject = this.compounds.find(
       c => c.compoundId === id);
     this.compoundService.populateForm(compoundObject);
-    this.dialog.open(CompoundComponent, this.dialogConfig);
+    this.dialog.open(CompoundComponent, this.editDialogConfig);
     this.dialog.openDialogs.forEach(open => open.afterClosed()
       .subscribe(() => this.getCompoundsDataSource()));
+  }
+
+  onPrint(id: number): void {
+    const compoundObject = this.compounds.find(
+      c => c.compoundId === id);
+    this.printDialogConfig.data = compoundObject;
+    this.dialog.open(CompoundPrintComponent, this.printDialogConfig);
   }
 
   onDelete(id: number): void {

@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Label printer:</h2>
+
+<mat-dialog-content>
+  <form class="normal-form" (ngSubmit)="onSubmit()">
+    <mat-grid-list cols="1" rowHeight="300px">
+      <mat-grid-tile>
+        <div class="controles-container">
+          <mat-form-field>
+            <input
+              matInput
+              name="capacity"
+              placeholder="Capacity"
+              required
+              [(ngModel)]="capacity"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              name="expirationDate"
+              placeholder="Expiration Date"
+              required
+              [(ngModel)]="expirationDate"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              name="series"
+              placeholder="Series"
+              required
+              [(ngModel)]="series"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              name="clarity"
+              placeholder="Clarity"
+              [(ngModel)]="clarity"
+            />
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div class="button-row">
+    <button
+      mat-raised-button
+      mat-dialog-close
+      color="primary"
+      type="submit"
+      (click)="onSubmit()"
+      [disabled]="capacity === '' || expirationDate === '' || series === ''"
+    >
+      Print
+    </button>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+  </div>
+</mat-dialog-actions>

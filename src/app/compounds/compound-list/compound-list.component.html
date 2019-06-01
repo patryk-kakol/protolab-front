@@ -57,12 +57,13 @@
         >
           <mat-icon>edit</mat-icon>
         </button>
+        <!-- disabled -->
         <button
           mat-icon-button
-          disabled
           color="primary"
           matTooltip="Print label"
           matTooltipPosition="right"
+          (click)="onPrint(element.compoundId)"
         >
           <mat-icon>print</mat-icon>
         </button>

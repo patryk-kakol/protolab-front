@@ -11,13 +11,15 @@ import { CompoundsComponent } from './compounds/compounds.component';
 import { CompoundComponent } from './compounds/compound/compound.component';
 import { CompoundService } from './shared/compound.service';
 import { CompoundListComponent } from './compounds/compound-list/compound-list.component';
+import { CompoundPrintComponent } from './compounds/compound-print/compound-print.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CompoundsComponent,
     CompoundComponent,
-    CompoundListComponent
+    CompoundListComponent,
+    CompoundPrintComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +32,6 @@ import { CompoundListComponent } from './compounds/compound-list/compound-list.c
   ],
   providers: [CompoundService],
   bootstrap: [AppComponent],
-  entryComponents: [CompoundComponent]
+  entryComponents: [CompoundComponent, CompoundPrintComponent]
 })
 export class AppModule { }
